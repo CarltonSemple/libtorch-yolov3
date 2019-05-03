@@ -7,6 +7,8 @@
 * It's fast, easy to be integrated to your production, and supports CPU and GPU computation. Enjoy ~
 *
 *******************************************************************************/
+#ifndef DARKNET_H
+#define DARKNET_H
 
 #include <torch/torch.h>
 #include <string>
@@ -51,3 +53,5 @@ private:
 
     string get_string_from_cfg(map<string, string> block, string key, string default_value);
 };
+
+#endif
