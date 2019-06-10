@@ -570,7 +570,7 @@ void Darknet::load_weights(const char *weight_file)
     at::TensorOptions options= torch::TensorOptions()
         .dtype(torch::kFloat32)
         .is_variable(true);
-    at::Tensor weights = torch::CPU(torch::kFloat32).tensorFromBlob(weights_src, {length/4});
+    at::Tensor weights = torch::from_blob(weights_src, {length/4}).to(torch::kCPU);
 
 	for (int i = 0; i < module_list.size(); i++)
 	{
@@ -612,12 +612,12 @@ void Darknet::load_weights(const char *weight_file)
 			bn_bias = bn_bias.view_as(bn_imp->bias);
 			bn_weights = bn_weights.view_as(bn_imp->weight);
 			bn_running_mean = bn_running_mean.view_as(bn_imp->running_mean);
-			bn_running_var = bn_running_var.view_as(bn_imp->running_variance);
+			bn_running_var = bn_running_var.view_as(bn_imp->running_var);
 
 			bn_imp->bias.set_data(bn_bias);
 			bn_imp->weight.set_data(bn_weights);
 			bn_imp->running_mean.set_data(bn_running_mean);
-			bn_imp->running_variance.set_data(bn_running_var);
+			bn_imp->running_var.set_data(bn_running_var);
 		}
 		else
 		{
